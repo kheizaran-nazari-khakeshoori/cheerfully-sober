@@ -3,14 +3,13 @@ from tkinter import messagebox
 
 #constants 
 R_man = 0.68
-R_woman =0.55
-ethanol_density =0.015
-elimination_rate = 0.789
+R_woman = 0.55
+ETHANOL_DENSITY_G_ML = 0.789 # g/mL
+ELIMINATION_RATE_PER_HR = 0.015 # % per hour
 
 
 def calculate_bac():
     try:
-        age = int(age_entry.get())
         weight = float(weight_entry.get())
         sex = sex_var.get()
         volume= float(drink_volume_entry.get())
@@ -18,7 +17,7 @@ def calculate_bac():
         hours = float(hours_entry.get())
 
         #conver drink to gram
-        alcohol_grams = volume * (abv / 100) * ethanol_density
+        alcohol_grams = volume * (abv / 100) * ETHANOL_DENSITY_G_ML
         
        
         if sex.lower() == "male":
@@ -31,8 +30,8 @@ def calculate_bac():
         #BAC calculation 
 
         weight_g = weight * 1000
-        bac = (alcohol_grams / (r * weight_g)) * 100
-        bac -= elimination_rate * hours 
+        bac = (alcohol_grams / (weight_g * r)) * 100
+        bac -= ELIMINATION_RATE_PER_HR * hours 
         bac = max(bac, 0.0)
 
         #Descriotion 
@@ -61,9 +60,6 @@ root = tk.Tk()
 root.title("cheerfully-sober")
 
 # Input fields
-tk.Label(root, text="Age:").grid(row=0, column=0, sticky="e")
-age_entry = tk.Entry(root)
-age_entry.grid(row=0, column=1)
 
 tk.Label(root, text="Weight (kg):").grid(row=1, column=0, sticky="e")
 weight_entry = tk.Entry(root)
