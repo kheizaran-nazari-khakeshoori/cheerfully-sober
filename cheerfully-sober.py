@@ -13,7 +13,58 @@ class BACCalculatorApp:
     
     def __init__(self):
         """Initialize the BAC Calculator Application"""
-        pass
+        self.weight_entry = None
+        self.height_entry = None
+        self.age_entry = None
+        self.sex_var = None
+        self.drink_volume_entry = None
+        self.drink_abv_entry = None
+        self.hours_entry = None
+        self.result_label = None
+    
+    def calculate_bac(self):
+        """Calculate Blood Alcohol Content based on user inputs"""
+        try:
+            weight = float(self.weight_entry.get())
+            height = float(self.height_entry.get())
+            age = float(self.age_entry.get())
+            sex = self.sex_var.get()
+            volume = float(self.drink_volume_entry.get())
+            abv = float(self.drink_abv_entry.get())
+            hours = float(self.hours_entry.get())
+
+            # Convert drink to gram
+            alcohol_grams = volume * (abv / 100) * self.ETHANOL_DENSITY_G_ML
+            
+            if sex.lower() == "male":
+                r = self.R_MAN
+            else:
+                r = self.R_WOMAN
+                 
+            # BAC calculation 
+            weight_g = weight * 1000
+            bac = (alcohol_grams / (weight_g * r)) * 100
+            bac -= self.ELIMINATION_RATE_PER_HR * hours 
+            bac = max(bac, 0.0)
+
+            # Description 
+            if bac < 0.02:
+                desc = "Minimal effects."
+            elif bac < 0.05:
+                desc = "Mild relaxation; avoid driving."
+            elif bac < 0.08:
+                desc = "Noticeable impairment; do not drive."
+            elif bac < 0.15:
+                desc = "Marked impairment; stay safe and hydrated."
+            elif bac < 0.30:
+                desc = "Severe impairment; danger present."
+            else:
+                desc = "Potentially life-threatening BAC! Seek help immediately."
+
+            self.result_label.config(text=f"Estimated BAC: {bac:.3f}%\n{desc}")
+
+        except ValueError:
+            messagebox.showerror("Input Error", "Please enter valid numbers for all fields.")
 
 
 # Module-level constants for backwards compatibility
@@ -22,54 +73,13 @@ R_woman = BACCalculatorApp.R_WOMAN
 ETHANOL_DENSITY_G_ML = BACCalculatorApp.ETHANOL_DENSITY_G_ML
 ELIMINATION_RATE_PER_HR = BACCalculatorApp.ELIMINATION_RATE_PER_HR
 
+# Global app instance
+app = BACCalculatorApp()
+
 
 def calculate_bac():
-    try:
-        weight = float(weight_entry.get())
-        height = float(height_entry.get())
-        age = float(age_entry.get())
-        sex = sex_var.get()
-        volume= float(drink_volume_entry.get())
-        abv = float(drink_abv_entry.get())
-        hours = float(hours_entry.get())
-
-        #conver drink to gram
-        alcohol_grams = volume * (abv / 100) * ETHANOL_DENSITY_G_ML
-        
-       
-        if sex.lower() == "male":
-            r = R_man
-
-        else:
-            r = R_woman
-             
-
-        #BAC calculation 
-
-        weight_g = weight * 1000
-        bac = (alcohol_grams / (weight_g * r)) * 100
-        bac -= ELIMINATION_RATE_PER_HR * hours 
-        bac = max(bac, 0.0)
-
-        #Descriotion 
-        if bac < 0.02:
-            desc = "Minimal effects."
-        elif bac < 0.05:
-            desc = "Mild relaxation; avoid driving."
-        elif bac < 0.08:
-            desc = "Noticeable impairment; do not drive."
-        elif bac < 0.15:
-            desc = "Marked impairment; stay safe and hydrated."
-        elif bac < 0.30:
-            desc = "Severe impairment; danger present."
-        else:
-            desc = "Potentially life-threatening BAC! Seek help immediately."
-
-        result_label.config(text=f"Estimated BAC: {bac:.3f}%\n{desc}")
-
-
-    except ValueError:
-        messagebox.showerror("Input Error", "Please enter valid numbers for all fields.")
+    """Wrapper function for backwards compatibility"""
+    app.calculate_bac()
 
 
 def mirab_button_click():
