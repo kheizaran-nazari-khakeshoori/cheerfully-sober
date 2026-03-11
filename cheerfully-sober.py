@@ -1,11 +1,26 @@
 import tkinter as tk
 from tkinter import messagebox
 
-#constants 
-R_man = 0.68
-R_woman = 0.55
-ETHANOL_DENSITY_G_ML = 0.789 # g/mL
-ELIMINATION_RATE_PER_HR = 0.015 # % per hour
+
+class BACCalculatorApp:
+    """Blood Alcohol Content Calculator Application"""
+    
+    # Constants
+    R_MAN = 0.68
+    R_WOMAN = 0.55
+    ETHANOL_DENSITY_G_ML = 0.789  # g/mL
+    ELIMINATION_RATE_PER_HR = 0.015  # % per hour
+    
+    def __init__(self):
+        """Initialize the BAC Calculator Application"""
+        pass
+
+
+# Module-level constants for backwards compatibility
+R_man = BACCalculatorApp.R_MAN
+R_woman = BACCalculatorApp.R_WOMAN
+ETHANOL_DENSITY_G_ML = BACCalculatorApp.ETHANOL_DENSITY_G_ML
+ELIMINATION_RATE_PER_HR = BACCalculatorApp.ELIMINATION_RATE_PER_HR
 
 
 def calculate_bac():
