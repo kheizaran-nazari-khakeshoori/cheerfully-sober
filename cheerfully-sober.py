@@ -65,6 +65,10 @@ class BACCalculatorApp:
 
         except ValueError:
             messagebox.showerror("Input Error", "Please enter valid numbers for all fields.")
+    
+    def mirab_button_click(self):
+        """Display Mirab's message"""
+        messagebox.showinfo("Mirab Says...", "It looks like dashagh Robert!")
 
 
 # Module-level constants for backwards compatibility
@@ -83,7 +87,8 @@ def calculate_bac():
 
 
 def mirab_button_click():
-    messagebox.showinfo("Mirab Says...", "It looks like dashagh Robert!")
+    """Wrapper function for backwards compatibility"""
+    app.mirab_button_click()
   
 # Create main window
 root = tk.Tk()
