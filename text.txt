@@ -1,0 +1,32 @@
+Code Structure & Organization
+Use object-oriented design: Wrap the application in a class (e.g., BACCalculatorApp) to better organize code and state
+Separate concerns: Split into modules - one for calculations, one for GUI, one for constants
+Add type hints: Use Python type annotations for better code clarity and IDE support
+Input Validation & Error Handling
+Real-time validation: Validate inputs as users type (e.g., prevent negative numbers)
+Better error messages: Provide specific feedback (e.g., "Weight must be between 30-300 kg")
+Range checking: Add realistic bounds for all inputs (weight, height, age, ABV, etc.)
+User Interface Improvements
+Better layout: Use ttk widgets for modern styling, add padding/margins
+Input groups: Organize fields into labeled frames (Personal Info, Drink Info, Results)
+Units selector: Allow switching between metric/imperial units
+Clear/Reset button: Let users easily start over
+Save/Load profiles: Store user profiles for quick calculations
+Multiple drinks: Support tracking multiple drinks consumed
+Calculation Enhancements
+More accurate formulas: Consider Watson formula or other alternatives
+Time to sober: Display estimated time until BAC reaches 0.0
+Drink presets: Add common drinks (beer, wine, spirits) with typical ABV values
+Visual indicators: Use color-coded BAC levels (green/yellow/red)
+Professional Polish
+Configuration file: Move constants to a config file (JSON/YAML)
+Logging: Add logging instead of just error dialogs
+Documentation: Add docstrings, README with usage instructions
+Legal disclaimer: Add warning that this is educational only, not medical advice
+Remove easter eggs: The "Mirab" button should probably go in a production app
+Version info: Add an About dialog with version and credits
+Code Quality
+Follow PEP 8: Consistent naming (e.g., calculate_bac vs mirab_button_click)
+Add comments: Explain the Widmark formula and constants
+Unit tests: Add tests for BAC calculation logic
+Requirements file: Create requirements.txt for dependencies
