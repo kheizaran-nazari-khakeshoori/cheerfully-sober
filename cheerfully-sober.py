@@ -75,6 +75,10 @@ class BACCalculatorApp:
         self.root = root
         root.title("cheerfully-sober")
         
+        # Configure window
+        root.resizable(False, False)
+        root.geometry("400x550")
+        
         # Input fields
         tk.Label(root, text="Weight (kg):").grid(row=1, column=0, sticky="e", padx=10, pady=5)
         self.weight_entry = tk.Entry(root)
