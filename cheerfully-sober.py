@@ -113,6 +113,12 @@ class BACCalculatorApp:
         # Result display
         self.result_label = tk.Label(root, text="", justify="left", fg="blue")
         self.result_label.grid(row=10, column=0, columnspan=2)
+    
+    def run(self):
+        """Run the application"""
+        root = tk.Tk()
+        self.build_ui(root)
+        root.mainloop()
 
 
 # Module-level constants for backwards compatibility
