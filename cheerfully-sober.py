@@ -113,10 +113,30 @@ class BACCalculatorApp:
         self.hours_entry.grid(row=7, column=1, padx=10, pady=5)
 
         # Calculate button
-        tk.Button(root, text="Calculate BAC", command=self.calculate_bac).grid(row=8, column=0, columnspan=2, pady=15, padx=10)
+        tk.Button(
+            root, 
+            text="Calculate BAC", 
+            command=self.calculate_bac,
+            bg="#27ae60",
+            fg="white",
+            font=("Arial", 11, "bold"),
+            padx=20,
+            pady=8,
+            cursor="hand2"
+        ).grid(row=8, column=0, columnspan=2, pady=15, padx=10, sticky="ew")
 
         # Mirab button (for fun!)
-        tk.Button(root, text="Mirab", command=self.mirab_button_click, bg="orange", fg="white").grid(row=9, column=0, columnspan=2, pady=5, padx=10)
+        tk.Button(
+            root, 
+            text="Mirab", 
+            command=self.mirab_button_click, 
+            bg="#e67e22", 
+            fg="white",
+            font=("Arial", 9),
+            padx=10,
+            pady=5,
+            cursor="hand2"
+        ).grid(row=9, column=0, columnspan=2, pady=5, padx=10)
 
         # Result display
         self.result_label = tk.Label(root, text="", justify="left", fg="blue")
