@@ -76,43 +76,43 @@ class BACCalculatorApp:
         root.title("cheerfully-sober")
         
         # Input fields
-        tk.Label(root, text="Weight (kg):").grid(row=1, column=0, sticky="e")
+        tk.Label(root, text="Weight (kg):").grid(row=1, column=0, sticky="e", padx=10, pady=5)
         self.weight_entry = tk.Entry(root)
-        self.weight_entry.grid(row=1, column=1)
+        self.weight_entry.grid(row=1, column=1, padx=10, pady=5)
 
-        tk.Label(root, text="Height (cm):").grid(row=2, column=0, sticky="e")
+        tk.Label(root, text="Height (cm):").grid(row=2, column=0, sticky="e", padx=10, pady=5)
         self.height_entry = tk.Entry(root)
-        self.height_entry.grid(row=2, column=1)
+        self.height_entry.grid(row=2, column=1, padx=10, pady=5)
 
-        tk.Label(root, text="Age (years):").grid(row=3, column=0, sticky="e")
+        tk.Label(root, text="Age (years):").grid(row=3, column=0, sticky="e", padx=10, pady=5)
         self.age_entry = tk.Entry(root)
-        self.age_entry.grid(row=3, column=1)
+        self.age_entry.grid(row=3, column=1, padx=10, pady=5)
 
-        tk.Label(root, text="Sex:").grid(row=4, column=0, sticky="e")
+        tk.Label(root, text="Sex:").grid(row=4, column=0, sticky="e", padx=10, pady=5)
         self.sex_var = tk.StringVar(value="male")
-        tk.OptionMenu(root, self.sex_var, "male", "female").grid(row=4, column=1)
+        tk.OptionMenu(root, self.sex_var, "male", "female").grid(row=4, column=1, sticky="ew", padx=10, pady=5)
 
-        tk.Label(root, text="Drink volume (ml):").grid(row=5, column=0, sticky="e")
+        tk.Label(root, text="Drink volume (ml):").grid(row=5, column=0, sticky="e", padx=10, pady=5)
         self.drink_volume_entry = tk.Entry(root)
-        self.drink_volume_entry.grid(row=5, column=1)
+        self.drink_volume_entry.grid(row=5, column=1, padx=10, pady=5)
 
-        tk.Label(root, text="Drink ABV (%):").grid(row=6, column=0, sticky="e")
+        tk.Label(root, text="Drink ABV (%):").grid(row=6, column=0, sticky="e", padx=10, pady=5)
         self.drink_abv_entry = tk.Entry(root)
-        self.drink_abv_entry.grid(row=6, column=1)
+        self.drink_abv_entry.grid(row=6, column=1, padx=10, pady=5)
 
-        tk.Label(root, text="Hours since first drink:").grid(row=7, column=0, sticky="e")
+        tk.Label(root, text="Hours since first drink:").grid(row=7, column=0, sticky="e", padx=10, pady=5)
         self.hours_entry = tk.Entry(root)
-        self.hours_entry.grid(row=7, column=1)
+        self.hours_entry.grid(row=7, column=1, padx=10, pady=5)
 
         # Calculate button
-        tk.Button(root, text="Calculate BAC", command=self.calculate_bac).grid(row=8, column=0, columnspan=2, pady=10)
+        tk.Button(root, text="Calculate BAC", command=self.calculate_bac).grid(row=8, column=0, columnspan=2, pady=15, padx=10)
 
         # Mirab button (for fun!)
-        tk.Button(root, text="Mirab", command=self.mirab_button_click, bg="orange", fg="white").grid(row=9, column=0, columnspan=2, pady=5)
+        tk.Button(root, text="Mirab", command=self.mirab_button_click, bg="orange", fg="white").grid(row=9, column=0, columnspan=2, pady=5, padx=10)
 
         # Result display
         self.result_label = tk.Label(root, text="", justify="left", fg="blue")
-        self.result_label.grid(row=10, column=0, columnspan=2)
+        self.result_label.grid(row=10, column=0, columnspan=2, padx=10, pady=10)
     
     def run(self):
         """Run the application"""
