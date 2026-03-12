@@ -69,6 +69,50 @@ class BACCalculatorApp:
     def mirab_button_click(self):
         """Display Mirab's message"""
         messagebox.showinfo("Mirab Says...", "It looks like dashagh Robert!")
+    
+    def build_ui(self, root):
+        """Build the user interface"""
+        self.root = root
+        root.title("cheerfully-sober")
+        
+        # Input fields
+        tk.Label(root, text="Weight (kg):").grid(row=1, column=0, sticky="e")
+        self.weight_entry = tk.Entry(root)
+        self.weight_entry.grid(row=1, column=1)
+
+        tk.Label(root, text="Height (cm):").grid(row=2, column=0, sticky="e")
+        self.height_entry = tk.Entry(root)
+        self.height_entry.grid(row=2, column=1)
+
+        tk.Label(root, text="Age (years):").grid(row=3, column=0, sticky="e")
+        self.age_entry = tk.Entry(root)
+        self.age_entry.grid(row=3, column=1)
+
+        tk.Label(root, text="Sex:").grid(row=4, column=0, sticky="e")
+        self.sex_var = tk.StringVar(value="male")
+        tk.OptionMenu(root, self.sex_var, "male", "female").grid(row=4, column=1)
+
+        tk.Label(root, text="Drink volume (ml):").grid(row=5, column=0, sticky="e")
+        self.drink_volume_entry = tk.Entry(root)
+        self.drink_volume_entry.grid(row=5, column=1)
+
+        tk.Label(root, text="Drink ABV (%):").grid(row=6, column=0, sticky="e")
+        self.drink_abv_entry = tk.Entry(root)
+        self.drink_abv_entry.grid(row=6, column=1)
+
+        tk.Label(root, text="Hours since first drink:").grid(row=7, column=0, sticky="e")
+        self.hours_entry = tk.Entry(root)
+        self.hours_entry.grid(row=7, column=1)
+
+        # Calculate button
+        tk.Button(root, text="Calculate BAC", command=self.calculate_bac).grid(row=8, column=0, columnspan=2, pady=10)
+
+        # Mirab button (for fun!)
+        tk.Button(root, text="Mirab", command=self.mirab_button_click, bg="orange", fg="white").grid(row=9, column=0, columnspan=2, pady=5)
+
+        # Result display
+        self.result_label = tk.Label(root, text="", justify="left", fg="blue")
+        self.result_label.grid(row=10, column=0, columnspan=2)
 
 
 # Module-level constants for backwards compatibility
@@ -92,46 +136,18 @@ def mirab_button_click():
   
 # Create main window
 root = tk.Tk()
-root.title("cheerfully-sober")
 
-# Input fields
+# Build UI through the app instance
+app.build_ui(root)
 
-tk.Label(root, text="Weight (kg):").grid(row=1, column=0, sticky="e")
-weight_entry = tk.Entry(root)
-weight_entry.grid(row=1, column=1)
-
-tk.Label(root, text="Height (cm):").grid(row=2, column=0, sticky="e")
-height_entry = tk.Entry(root)
-height_entry.grid(row=2, column=1)
-
-tk.Label(root, text="Age (years):").grid(row=3, column=0, sticky="e")
-age_entry = tk.Entry(root)
-age_entry.grid(row=3, column=1)
-
-tk.Label(root, text="Sex:").grid(row=4, column=0, sticky="e")
-sex_var = tk.StringVar(value="male")
-tk.OptionMenu(root, sex_var, "male", "female").grid(row=4, column=1)
-
-tk.Label(root, text="Drink volume (ml):").grid(row=5, column=0, sticky="e")
-drink_volume_entry = tk.Entry(root)
-drink_volume_entry.grid(row=5, column=1)
-
-tk.Label(root, text="Drink ABV (%):").grid(row=6, column=0, sticky="e")
-drink_abv_entry = tk.Entry(root)
-drink_abv_entry.grid(row=6, column=1)
-
-tk.Label(root, text="Hours since first drink:").grid(row=7, column=0, sticky="e")
-hours_entry = tk.Entry(root)
-hours_entry.grid(row=7, column=1)
-
-# Calculate button
-tk.Button(root, text="Calculate BAC", command=calculate_bac).grid(row=8, column=0, columnspan=2, pady=10)
-
-# Mirab button (for fun!)
-tk.Button(root, text="Mirab", command=mirab_button_click, bg="orange", fg="white").grid(row=9, column=0, columnspan=2, pady=5)
-
-# Result display
-result_label = tk.Label(root, text="", justify="left", fg="blue")
-result_label.grid(row=10, column=0, columnspan=2)
+# Legacy widget references for backwards compatibility
+weight_entry = app.weight_entry
+height_entry = app.height_entry
+age_entry = app.age_entry
+sex_var = app.sex_var
+drink_volume_entry = app.drink_volume_entry
+drink_abv_entry = app.drink_abv_entry
+hours_entry = app.hours_entry
+result_label = app.result_label
 
 root.mainloop()
