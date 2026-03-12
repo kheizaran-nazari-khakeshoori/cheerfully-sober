@@ -121,39 +121,8 @@ class BACCalculatorApp:
         root.mainloop()
 
 
-# Module-level constants for backwards compatibility
-R_man = BACCalculatorApp.R_MAN
-R_woman = BACCalculatorApp.R_WOMAN
-ETHANOL_DENSITY_G_ML = BACCalculatorApp.ETHANOL_DENSITY_G_ML
-ELIMINATION_RATE_PER_HR = BACCalculatorApp.ELIMINATION_RATE_PER_HR
 
-# Global app instance
-app = BACCalculatorApp()
-
-
-def calculate_bac():
-    """Wrapper function for backwards compatibility"""
-    app.calculate_bac()
-
-
-def mirab_button_click():
-    """Wrapper function for backwards compatibility"""
-    app.mirab_button_click()
-  
-# Create main window
-root = tk.Tk()
-
-# Build UI through the app instance
-app.build_ui(root)
-
-# Legacy widget references for backwards compatibility
-weight_entry = app.weight_entry
-height_entry = app.height_entry
-age_entry = app.age_entry
-sex_var = app.sex_var
-drink_volume_entry = app.drink_volume_entry
-drink_abv_entry = app.drink_abv_entry
-hours_entry = app.hours_entry
-result_label = app.result_label
-
-root.mainloop()
+# Module-level entry point
+if __name__ == "__main__":
+    app = BACCalculatorApp()
+    app.run()
