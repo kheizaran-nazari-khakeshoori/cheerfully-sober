@@ -87,40 +87,49 @@ class BACCalculatorApp:
         
         # Configure window
         root.resizable(False, False)
-        root.geometry("400x550")
+        root.geometry("450x600")
         
         # Header
         header = tk.Label(root, text="🍺 BAC Calculator 🍺", font=("Arial", 16, "bold"), fg="#2c3e50")
         header.grid(row=0, column=0, columnspan=2, pady=(20, 10))
         
-        # Input fields
-        tk.Label(root, text="Weight (kg):").grid(row=1, column=0, sticky="e", padx=10, pady=5)
-        self.weight_entry = tk.Entry(root)
-        self.weight_entry.grid(row=1, column=1, padx=10, pady=5)
+        # Personal Information Frame
+        personal_frame = tk.LabelFrame(root, text="Personal Information", font=("Arial", 10, "bold"), pady=10)
+        personal_frame.grid(row=1, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        
+        # Input fields - Personal Info
+        tk.Label(personal_frame, text="Weight (kg):").grid(row=0, column=0, sticky="e", padx=10, pady=5)
+        self.weight_entry = tk.Entry(personal_frame, width=20)
+        self.weight_entry.grid(row=0, column=1, padx=10, pady=5)
 
-        tk.Label(root, text="Height (cm):").grid(row=2, column=0, sticky="e", padx=10, pady=5)
-        self.height_entry = tk.Entry(root)
-        self.height_entry.grid(row=2, column=1, padx=10, pady=5)
+        tk.Label(personal_frame, text="Height (cm):").grid(row=1, column=0, sticky="e", padx=10, pady=5)
+        self.height_entry = tk.Entry(personal_frame, width=20)
+        self.height_entry.grid(row=1, column=1, padx=10, pady=5)
 
-        tk.Label(root, text="Age (years):").grid(row=3, column=0, sticky="e", padx=10, pady=5)
-        self.age_entry = tk.Entry(root)
-        self.age_entry.grid(row=3, column=1, padx=10, pady=5)
+        tk.Label(personal_frame, text="Age (years):").grid(row=2, column=0, sticky="e", padx=10, pady=5)
+        self.age_entry = tk.Entry(personal_frame, width=20)
+        self.age_entry.grid(row=2, column=1, padx=10, pady=5)
 
-        tk.Label(root, text="Sex:").grid(row=4, column=0, sticky="e", padx=10, pady=5)
+        tk.Label(personal_frame, text="Sex:").grid(row=3, column=0, sticky="e", padx=10, pady=5)
         self.sex_var = tk.StringVar(value="male")
-        tk.OptionMenu(root, self.sex_var, "male", "female").grid(row=4, column=1, sticky="ew", padx=10, pady=5)
+        tk.OptionMenu(personal_frame, self.sex_var, "male", "female").grid(row=3, column=1, sticky="ew", padx=10, pady=5)
+        
+        # Drink Information Frame
+        drink_frame = tk.LabelFrame(root, text="Drink Information", font=("Arial", 10, "bold"), pady=10)
+        drink_frame.grid(row=2, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        
+        # Input fields - Drink Info
+        tk.Label(drink_frame, text="Drink volume (ml):").grid(row=0, column=0, sticky="e", padx=10, pady=5)
+        self.drink_volume_entry = tk.Entry(drink_frame, width=20)
+        self.drink_volume_entry.grid(row=0, column=1, padx=10, pady=5)
 
-        tk.Label(root, text="Drink volume (ml):").grid(row=5, column=0, sticky="e", padx=10, pady=5)
-        self.drink_volume_entry = tk.Entry(root)
-        self.drink_volume_entry.grid(row=5, column=1, padx=10, pady=5)
+        tk.Label(drink_frame, text="Drink ABV (%):").grid(row=1, column=0, sticky="e", padx=10, pady=5)
+        self.drink_abv_entry = tk.Entry(drink_frame, width=20)
+        self.drink_abv_entry.grid(row=1, column=1, padx=10, pady=5)
 
-        tk.Label(root, text="Drink ABV (%):").grid(row=6, column=0, sticky="e", padx=10, pady=5)
-        self.drink_abv_entry = tk.Entry(root)
-        self.drink_abv_entry.grid(row=6, column=1, padx=10, pady=5)
-
-        tk.Label(root, text="Hours since first drink:").grid(row=7, column=0, sticky="e", padx=10, pady=5)
-        self.hours_entry = tk.Entry(root)
-        self.hours_entry.grid(row=7, column=1, padx=10, pady=5)
+        tk.Label(drink_frame, text="Hours since first drink:").grid(row=2, column=0, sticky="e", padx=10, pady=5)
+        self.hours_entry = tk.Entry(drink_frame, width=20)
+        self.hours_entry.grid(row=2, column=1, padx=10, pady=5)
 
         # Calculate button
         tk.Button(
@@ -133,7 +142,7 @@ class BACCalculatorApp:
             padx=20,
             pady=8,
             cursor="hand2"
-        ).grid(row=8, column=0, columnspan=2, pady=15, padx=10, sticky="ew")
+        ).grid(row=3, column=0, columnspan=2, pady=15, padx=10, sticky="ew")
 
         # Mirab button (for fun!)
         tk.Button(
@@ -146,7 +155,7 @@ class BACCalculatorApp:
             padx=10,
             pady=5,
             cursor="hand2"
-        ).grid(row=9, column=0, columnspan=2, pady=5, padx=10)
+        ).grid(row=4, column=0, columnspan=2, pady=5, padx=10)
 
         # Result display
         self.result_label = tk.Label(
@@ -161,7 +170,7 @@ class BACCalculatorApp:
             pady=15,
             wraplength=350
         )
-        self.result_label.grid(row=10, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+        self.result_label.grid(row=5, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
     
     def run(self):
         """Run the application"""
