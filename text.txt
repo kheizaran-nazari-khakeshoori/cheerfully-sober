@@ -1,5 +1,4 @@
 Code Structure & Organization
-Separate concerns: Split into modules - one for calculations, one for GUI, one for constants
 Add type hints: Use Python type annotations for better code clarity and IDE support
 
 Input Validation & Error Handling
