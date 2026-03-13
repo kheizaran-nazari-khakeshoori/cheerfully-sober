@@ -50,18 +50,28 @@ class BACCalculatorApp:
             # Description 
             if bac < 0.02:
                 desc = "Minimal effects."
+                color = "#27ae60"  # Green
             elif bac < 0.05:
                 desc = "Mild relaxation; avoid driving."
+                color = "#f39c12"  # Yellow-orange
             elif bac < 0.08:
                 desc = "Noticeable impairment; do not drive."
+                color = "#e67e22"  # Orange
             elif bac < 0.15:
                 desc = "Marked impairment; stay safe and hydrated."
+                color = "#d35400"  # Dark orange
             elif bac < 0.30:
                 desc = "Severe impairment; danger present."
+                color = "#c0392b"  # Red
             else:
                 desc = "Potentially life-threatening BAC! Seek help immediately."
+                color = "#8b0000"  # Dark red
 
-            self.result_label.config(text=f"Estimated BAC: {bac:.3f}%\n{desc}")
+            self.result_label.config(
+                text=f"Estimated BAC: {bac:.3f}%\n\n{desc}",
+                fg=color,
+                font=("Arial", 11, "bold")
+            )
 
         except ValueError:
             messagebox.showerror("Input Error", "Please enter valid numbers for all fields.")
@@ -139,8 +149,19 @@ class BACCalculatorApp:
         ).grid(row=9, column=0, columnspan=2, pady=5, padx=10)
 
         # Result display
-        self.result_label = tk.Label(root, text="", justify="left", fg="blue")
-        self.result_label.grid(row=10, column=0, columnspan=2, padx=10, pady=10)
+        self.result_label = tk.Label(
+            root, 
+            text="Enter your information and click Calculate", 
+            justify="center", 
+            fg="#34495e",
+            font=("Arial", 10),
+            bg="#ecf0f1",
+            relief="solid",
+            borderwidth=1,
+            pady=15,
+            wraplength=350
+        )
+        self.result_label.grid(row=10, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
     
     def run(self):
         """Run the application"""
