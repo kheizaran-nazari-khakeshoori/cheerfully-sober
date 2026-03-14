@@ -10,6 +10,20 @@ ETHANOL_DENSITY_G_ML = 0.789  # g/mL
 # Metabolism constants
 ELIMINATION_RATE_PER_HR = 0.015  # % per hour
 
+# Input validation ranges
+WEIGHT_MIN = 30  # kg
+WEIGHT_MAX = 300  # kg
+HEIGHT_MIN = 50  # cm
+HEIGHT_MAX = 250  # cm
+AGE_MIN = 18  # years
+AGE_MAX = 120  # years
+VOLUME_MIN = 0  # ml (exclusive)
+VOLUME_MAX = 5000  # ml
+ABV_MIN = 0  # % (exclusive)
+ABV_MAX = 100  # %
+HOURS_MIN = 0  # hours
+HOURS_MAX = 48  # hours
+
 # BAC level thresholds and descriptions
 BAC_LEVELS = [
     (0.02, "Minimal effects.", "#27ae60"),  # Green
