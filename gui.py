@@ -141,11 +141,21 @@ class BACCalculatorApp:
         self.weight_entry.grid(row=0, column=1, padx=10, pady=5)
 
         tk.Label(personal_frame, text="Height (cm):").grid(row=1, column=0, sticky="e", padx=10, pady=5)
-        self.height_entry = tk.Entry(personal_frame, width=20)
+        self.height_entry = tk.Entry(
+            personal_frame, 
+            width=20,
+            validate='key',
+            validatecommand=(validate_cmd, '%P')
+        )
         self.height_entry.grid(row=1, column=1, padx=10, pady=5)
 
         tk.Label(personal_frame, text="Age (years):").grid(row=2, column=0, sticky="e", padx=10, pady=5)
-        self.age_entry = tk.Entry(personal_frame, width=20)
+        self.age_entry = tk.Entry(
+            personal_frame, 
+            width=20,
+            validate='key',
+            validatecommand=(validate_cmd, '%P')
+        )
         self.age_entry.grid(row=2, column=1, padx=10, pady=5)
 
         tk.Label(personal_frame, text="Sex:").grid(row=3, column=0, sticky="e", padx=10, pady=5)
