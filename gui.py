@@ -36,6 +36,35 @@ class BACCalculatorApp:
         self.hours_entry = None
         self.result_label = None
     
+    def validate_positive_number(self, new_value):
+        """
+        Validate that input is a positive number or empty.
+        
+        Args:
+            new_value: The new value being entered
+            
+        Returns:
+            True if valid, False otherwise
+        """
+        # Allow empty string (for clearing the field)
+        if new_value == "":
+            return True
+        
+        # Allow single decimal point
+        if new_value == ".":
+            return True
+        
+        try:
+            # Try to convert to float
+            value = float(new_value)
+            # Reject negative numbers
+            if value < 0:
+                return False
+            return True
+        except ValueError:
+            # Reject non-numeric input
+            return False
+    
     def calculate_bac_handler(self):
         """Handle BAC calculation from user inputs"""
         try:
