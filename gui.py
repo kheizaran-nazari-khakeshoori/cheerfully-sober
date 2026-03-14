@@ -17,7 +17,19 @@ from constants import (
     BUTTON_MIRAB_BG,
     BUTTON_TEXT_COLOR,
     RESULT_DEFAULT_COLOR,
-    RESULT_BG_COLOR
+    RESULT_BG_COLOR,
+    WEIGHT_MIN,
+    WEIGHT_MAX,
+    HEIGHT_MIN,
+    HEIGHT_MAX,
+    AGE_MIN,
+    AGE_MAX,
+    VOLUME_MIN,
+    VOLUME_MAX,
+    ABV_MIN,
+    ABV_MAX,
+    HOURS_MIN,
+    HOURS_MAX
 )
 
 
@@ -64,6 +76,49 @@ class BACCalculatorApp:
         except ValueError:
             # Reject non-numeric input
             return False
+    
+    def validate_inputs(self):
+        """
+        Validate all input fields and return specific error messages.
+        
+        Returns:
+            Tuple of (is_valid, error_message)
+        """
+        try:
+            # Validate weight
+            weight = float(self.weight_entry.get())
+            if weight < WEIGHT_MIN or weight > WEIGHT_MAX:
+                return False, f"Weight must be between {WEIGHT_MIN}-{WEIGHT_MAX} kg"
+            
+            # Validate height
+            height = float(self.height_entry.get())
+            if height < HEIGHT_MIN or height > HEIGHT_MAX:
+                return False, f"Height must be between {HEIGHT_MIN}-{HEIGHT_MAX} cm"
+            
+            # Validate age
+            age = float(self.age_entry.get())
+            if age < AGE_MIN or age > AGE_MAX:
+                return False, f"Age must be between {AGE_MIN}-{AGE_MAX} years"
+            
+            # Validate drink volume
+            volume = float(self.drink_volume_entry.get())
+            if volume <= VOLUME_MIN or volume > VOLUME_MAX:
+                return False, f"Drink volume must be between {VOLUME_MIN} and {VOLUME_MAX} ml"
+            
+            # Validate ABV
+            abv = float(self.drink_abv_entry.get())
+            if abv <= ABV_MIN or abv > ABV_MAX:
+                return False, f"ABV must be between {ABV_MIN} and {ABV_MAX}%"
+            
+            # Validate hours
+            hours = float(self.hours_entry.get())
+            if hours < HOURS_MIN or hours > HOURS_MAX:
+                return False, f"Hours must be between {HOURS_MIN}-{HOURS_MAX} hours"
+            
+            return True, ""
+            
+        except ValueError:
+            return False, "Please enter valid numbers for all fields"
     
     def calculate_bac_handler(self):
         """Handle BAC calculation from user inputs"""
