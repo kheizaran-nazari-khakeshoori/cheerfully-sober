@@ -109,6 +109,9 @@ class BACCalculatorApp:
         root.resizable(False, False)
         root.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
         
+        # Register validation command
+        validate_cmd = root.register(self.validate_positive_number)
+        
         # Header
         header = tk.Label(
             root, 
@@ -129,7 +132,12 @@ class BACCalculatorApp:
         
         # Input fields - Personal Info
         tk.Label(personal_frame, text="Weight (kg):").grid(row=0, column=0, sticky="e", padx=10, pady=5)
-        self.weight_entry = tk.Entry(personal_frame, width=20)
+        self.weight_entry = tk.Entry(
+            personal_frame, 
+            width=20,
+            validate='key',
+            validatecommand=(validate_cmd, '%P')
+        )
         self.weight_entry.grid(row=0, column=1, padx=10, pady=5)
 
         tk.Label(personal_frame, text="Height (cm):").grid(row=1, column=0, sticky="e", padx=10, pady=5)
