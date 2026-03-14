@@ -175,11 +175,21 @@ class BACCalculatorApp:
         
         # Input fields - Drink Info
         tk.Label(drink_frame, text="Drink volume (ml):").grid(row=0, column=0, sticky="e", padx=10, pady=5)
-        self.drink_volume_entry = tk.Entry(drink_frame, width=20)
+        self.drink_volume_entry = tk.Entry(
+            drink_frame, 
+            width=20,
+            validate='key',
+            validatecommand=(validate_cmd, '%P')
+        )
         self.drink_volume_entry.grid(row=0, column=1, padx=10, pady=5)
 
         tk.Label(drink_frame, text="Drink ABV (%):").grid(row=1, column=0, sticky="e", padx=10, pady=5)
-        self.drink_abv_entry = tk.Entry(drink_frame, width=20)
+        self.drink_abv_entry = tk.Entry(
+            drink_frame, 
+            width=20,
+            validate='key',
+            validatecommand=(validate_cmd, '%P')
+        )
         self.drink_abv_entry.grid(row=1, column=1, padx=10, pady=5)
 
         tk.Label(drink_frame, text="Hours since first drink:").grid(row=2, column=0, sticky="e", padx=10, pady=5)
