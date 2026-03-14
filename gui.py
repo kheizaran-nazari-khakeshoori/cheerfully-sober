@@ -193,7 +193,12 @@ class BACCalculatorApp:
         self.drink_abv_entry.grid(row=1, column=1, padx=10, pady=5)
 
         tk.Label(drink_frame, text="Hours since first drink:").grid(row=2, column=0, sticky="e", padx=10, pady=5)
-        self.hours_entry = tk.Entry(drink_frame, width=20)
+        self.hours_entry = tk.Entry(
+            drink_frame, 
+            width=20,
+            validate='key',
+            validatecommand=(validate_cmd, '%P')
+        )
         self.hours_entry.grid(row=2, column=1, padx=10, pady=5)
 
         # Calculate button
