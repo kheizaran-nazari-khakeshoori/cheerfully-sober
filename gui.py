@@ -122,6 +122,13 @@ class BACCalculatorApp:
     
     def calculate_bac_handler(self):
         """Handle BAC calculation from user inputs"""
+        # Validate inputs first
+        is_valid, error_message = self.validate_inputs()
+        
+        if not is_valid:
+            messagebox.showerror("Validation Error", error_message)
+            return
+        
         try:
             # Get user inputs
             weight = float(self.weight_entry.get())
