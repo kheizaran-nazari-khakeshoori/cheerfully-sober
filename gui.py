@@ -225,7 +225,7 @@ class BACCalculatorApp:
         
         # Input fields - Personal Info
         ttk.Label(personal_frame, text="Weight (kg):").grid(row=0, column=0, sticky="e", padx=10, pady=5)
-        self.weight_entry = tk.Entry(
+        self.weight_entry = ttk.Entry(
             personal_frame, 
             width=20,
             validate='key',
@@ -234,7 +234,7 @@ class BACCalculatorApp:
         self.weight_entry.grid(row=0, column=1, padx=10, pady=5)
 
         ttk.Label(personal_frame, text="Height (cm):").grid(row=1, column=0, sticky="e", padx=10, pady=5)
-        self.height_entry = tk.Entry(
+        self.height_entry = ttk.Entry(
             personal_frame, 
             width=20,
             validate='key',
@@ -243,7 +243,7 @@ class BACCalculatorApp:
         self.height_entry.grid(row=1, column=1, padx=10, pady=5)
 
         ttk.Label(personal_frame, text="Age (years):").grid(row=2, column=0, sticky="e", padx=10, pady=5)
-        self.age_entry = tk.Entry(
+        self.age_entry = ttk.Entry(
             personal_frame, 
             width=20,
             validate='key',
@@ -253,9 +253,9 @@ class BACCalculatorApp:
 
         ttk.Label(personal_frame, text="Sex:").grid(row=3, column=0, sticky="e", padx=10, pady=5)
         self.sex_var = tk.StringVar(value="male")
-        tk.OptionMenu(personal_frame, self.sex_var, "male", "female").grid(
-            row=3, column=1, sticky="ew", padx=10, pady=5
-        )
+        sex_combo = ttk.Combobox(personal_frame, textvariable=self.sex_var, 
+                                 values=["male", "female"], state="readonly", width=18)
+        sex_combo.grid(row=3, column=1, sticky="ew", padx=10, pady=5)
         
         # Drink Information Frame
         drink_frame = ttk.LabelFrame(
@@ -267,7 +267,7 @@ class BACCalculatorApp:
         
         # Input fields - Drink Info
         ttk.Label(drink_frame, text="Drink volume (ml):").grid(row=0, column=0, sticky="e", padx=10, pady=5)
-        self.drink_volume_entry = tk.Entry(
+        self.drink_volume_entry = ttk.Entry(
             drink_frame, 
             width=20,
             validate='key',
@@ -276,7 +276,7 @@ class BACCalculatorApp:
         self.drink_volume_entry.grid(row=0, column=1, padx=10, pady=5)
 
         ttk.Label(drink_frame, text="Drink ABV (%):").grid(row=1, column=0, sticky="e", padx=10, pady=5)
-        self.drink_abv_entry = tk.Entry(
+        self.drink_abv_entry = ttk.Entry(
             drink_frame, 
             width=20,
             validate='key',
@@ -285,7 +285,7 @@ class BACCalculatorApp:
         self.drink_abv_entry.grid(row=1, column=1, padx=10, pady=5)
 
         ttk.Label(drink_frame, text="Hours since first drink:").grid(row=2, column=0, sticky="e", padx=10, pady=5)
-        self.hours_entry = tk.Entry(
+        self.hours_entry = ttk.Entry(
             drink_frame, 
             width=20,
             validate='key',
