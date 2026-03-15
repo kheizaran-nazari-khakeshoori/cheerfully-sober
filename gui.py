@@ -128,8 +128,14 @@ class BACCalculatorApp:
         is_valid, error_message = self.validate_inputs()
         
         if not is_valid:
+            # Display error in label
+            self.error_label.config(text=f"⚠ {error_message}")
+            # Also show popup for critical errors
             messagebox.showerror("Validation Error", error_message)
             return
+        
+        # Clear any previous error messages
+        self.error_label.config(text="")
         
         try:
             # Get user inputs
@@ -158,7 +164,9 @@ class BACCalculatorApp:
             )
 
         except ValueError:
-            messagebox.showerror("Input Error", "Please enter valid numbers for all fields.")
+            error_msg = "Please enter valid numbers for all fields"
+            self.error_label.config(text=f"⚠ {error_msg}")
+            messagebox.showerror("Input Error", error_msg)
     
     def mirab_button_click(self):
         """Display Mirab's message"""
