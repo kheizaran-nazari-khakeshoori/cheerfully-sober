@@ -217,11 +217,10 @@ class BACCalculatorApp:
         header.grid(row=0, column=0, columnspan=2, pady=(20, 10))
         
         # Personal Information Frame
-        personal_frame = tk.LabelFrame(
+        personal_frame = ttk.LabelFrame(
             root, 
-            text="Personal Information", 
-            font=("Arial", 10, "bold"), 
-            pady=10
+            text="Personal Information",
+            padding=(15, 10)
         )
         personal_frame.grid(row=1, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
         
@@ -260,11 +259,10 @@ class BACCalculatorApp:
         )
         
         # Drink Information Frame
-        drink_frame = tk.LabelFrame(
+        drink_frame = ttk.LabelFrame(
             root, 
-            text="Drink Information", 
-            font=("Arial", 10, "bold"), 
-            pady=10
+            text="Drink Information",
+            padding=(15, 10)
         )
         drink_frame.grid(row=2, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
         
