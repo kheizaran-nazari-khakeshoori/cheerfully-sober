@@ -1,6 +1,7 @@
 """GUI Module for BAC Calculator Application"""
 
 import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox
 
 from calculations import (
@@ -180,6 +181,28 @@ class BACCalculatorApp:
         # Configure window
         root.resizable(False, False)
         root.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
+        
+        # Configure ttk style for modern appearance
+        style = ttk.Style()
+        style.theme_use('clam')  # Modern, cross-platform theme
+        
+        # Configure custom styles
+        style.configure('Header.TLabel', 
+                       font=('Arial', 16, 'bold'),
+                       foreground=HEADER_COLOR,
+                       padding=10)
+        style.configure('TLabelframe.Label', 
+                       font=('Arial', 10, 'bold'))
+        style.configure('Calculate.TButton',
+                       font=('Arial', 11, 'bold'),
+                       background=BUTTON_CALCULATE_BG,
+                       foreground=BUTTON_TEXT_COLOR,
+                       padding=10)
+        style.configure('Mirab.TButton',
+                       font=('Arial', 9),
+                       background=BUTTON_MIRAB_BG,
+                       foreground=BUTTON_TEXT_COLOR,
+                       padding=8)
         
         # Register validation command
         validate_cmd = root.register(self.validate_positive_number)
