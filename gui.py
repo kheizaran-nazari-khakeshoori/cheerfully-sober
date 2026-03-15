@@ -47,6 +47,8 @@ class BACCalculatorApp:
         self.drink_abv_entry = None
         self.hours_entry = None
         self.result_label = None
+        # Error labels for inline feedback
+        self.error_label = None
     
     def validate_positive_number(self, new_value):
         """
@@ -276,6 +278,17 @@ class BACCalculatorApp:
             cursor="hand2"
         ).grid(row=3, column=0, columnspan=2, pady=15, padx=10, sticky="ew")
 
+        # Error message label
+        self.error_label = tk.Label(
+            root,
+            text="",
+            font=("Arial", 9),
+            fg="#c0392b",  # Red color for errors
+            wraplength=400,
+            justify="center"
+        )
+        self.error_label.grid(row=4, column=0, columnspan=2, padx=10, pady=(0, 5))
+
         # Mirab button (for fun!)
         tk.Button(
             root, 
@@ -287,7 +300,7 @@ class BACCalculatorApp:
             padx=10,
             pady=5,
             cursor="hand2"
-        ).grid(row=4, column=0, columnspan=2, pady=5, padx=10)
+        ).grid(row=5, column=0, columnspan=2, pady=5, padx=10)
 
         # Result display
         self.result_label = tk.Label(
@@ -302,7 +315,7 @@ class BACCalculatorApp:
             pady=15,
             wraplength=350
         )
-        self.result_label.grid(row=5, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+        self.result_label.grid(row=6, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
     
     def run(self):
         """Run the application"""
