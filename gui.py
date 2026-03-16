@@ -303,6 +303,14 @@ class BACCalculatorApp:
         )
         calculate_btn.grid(row=3, column=0, columnspan=2, pady=15, padx=15, sticky="ew")
 
+        # Results Frame
+        results_frame = ttk.LabelFrame(
+            root,
+            text="Results",
+            padding=(15, 10)
+        )
+        results_frame.grid(row=4, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+
         # Error message label
         self.error_label = tk.Label(
             root,
