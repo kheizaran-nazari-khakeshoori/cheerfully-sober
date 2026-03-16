@@ -322,19 +322,9 @@ class BACCalculatorApp:
         )
         self.error_label.grid(row=0, column=0, columnspan=2, padx=5, pady=(0, 5))
 
-        # Mirab button (for fun!)
-        mirab_btn = ttk.Button(
-            root, 
-            text="Mirab", 
-            command=self.mirab_button_click,
-            style='Mirab.TButton',
-            cursor="hand2"
-        )
-        mirab_btn.grid(row=5, column=0, columnspan=2, pady=(5, 10), padx=15, sticky="ew")
-
         # Result display
         self.result_label = tk.Label(
-            root, 
+            results_frame, 
             text="Enter your information and click Calculate", 
             justify="center", 
             fg=RESULT_DEFAULT_COLOR,
@@ -346,7 +336,17 @@ class BACCalculatorApp:
             padx=10,
             wraplength=380
         )
-        self.result_label.grid(row=6, column=0, columnspan=2, padx=15, pady=(5, 15), sticky="ew")
+        self.result_label.grid(row=1, column=0, columnspan=2, padx=5, pady=(5, 0), sticky="ew")
+
+        # Mirab button (for fun!)
+        mirab_btn = ttk.Button(
+            root, 
+            text="Mirab", 
+            command=self.mirab_button_click,
+            style='Mirab.TButton',
+            cursor="hand2"
+        )
+        mirab_btn.grid(row=5, column=0, columnspan=2, pady=(5, 15), padx=15, sticky="ew")
     
     def run(self):
         """Run the application"""
