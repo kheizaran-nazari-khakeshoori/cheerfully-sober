@@ -191,6 +191,26 @@ class BACCalculatorApp:
         """Display Mirab's message"""
         messagebox.showinfo("Mirab Says...", "It looks like dashagh Robert!")
     
+    def on_unit_change(self, event=None):
+        """Handle unit system change between metric and imperial"""
+        unit = self.unit_system.get()
+        
+        if unit == "metric":
+            self.weight_label.config(text="Weight (kg):")
+            self.height_label.config(text="Height (cm):")
+            self.volume_label.config(text="Drink volume (ml):")
+        else:  # imperial
+            self.weight_label.config(text="Weight (lbs):")
+            self.height_label.config(text="Height (inches):")
+            self.volume_label.config(text="Drink volume (oz):")
+        
+        # Clear any existing values when switching units
+        self.weight_entry.delete(0, tk.END)
+        self.height_entry.delete(0, tk.END)
+        self.drink_volume_entry.delete(0, tk.END)
+        # Clear error messages
+        self.error_label.config(text="")
+    
     def build_ui(self, root):
         """Build the user interface"""
         self.root = root
