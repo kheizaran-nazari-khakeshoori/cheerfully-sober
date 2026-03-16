@@ -30,7 +30,19 @@ from constants import (
     ABV_MIN,
     ABV_MAX,
     HOURS_MIN,
-    HOURS_MAX
+    HOURS_MAX,
+    LBS_TO_KG,
+    KG_TO_LBS,
+    INCH_TO_CM,
+    CM_TO_INCH,
+    OZ_TO_ML,
+    ML_TO_OZ,
+    WEIGHT_MIN_LBS,
+    WEIGHT_MAX_LBS,
+    HEIGHT_MIN_INCH,
+    HEIGHT_MAX_INCH,
+    VOLUME_MIN_OZ,
+    VOLUME_MAX_OZ
 )
 
 
@@ -50,6 +62,12 @@ class BACCalculatorApp:
         self.result_label = None
         # Error labels for inline feedback
         self.error_label = None
+        # Unit system
+        self.unit_system = None  # "metric" or "imperial"
+        # Label references for updating units
+        self.weight_label = None
+        self.height_label = None
+        self.volume_label = None
     
     def validate_positive_number(self, new_value):
         """
@@ -215,16 +233,33 @@ class BACCalculatorApp:
         )
         header.grid(row=0, column=0, columnspan=2, pady=(20, 10))
         
+        # Unit system selector
+        unit_frame = ttk.Frame(root)
+        unit_frame.grid(row=1, column=0, columnspan=2, pady=(0, 10))
+        
+        ttk.Label(unit_frame, text="Units:", font=("Arial", 9)).pack(side="left", padx=(0, 5))
+        self.unit_system = tk.StringVar(value="metric")
+        unit_combo = ttk.Combobox(
+            unit_frame, 
+            textvariable=self.unit_system,
+            values=["metric", "imperial"],
+            state="readonly",
+            width=12
+        )
+        unit_combo.pack(side="left")
+        unit_combo.bind("<<ComboboxSelected>>", self.on_unit_change)
+        
         # Personal Information Frame
         personal_frame = ttk.LabelFrame(
             root, 
             text="Personal Information",
             padding=(15, 10)
         )
-        personal_frame.grid(row=1, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        personal_frame.grid(row=2, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
         
         # Input fields - Personal Info
-        ttk.Label(personal_frame, text="Weight (kg):").grid(row=0, column=0, sticky="e", padx=10, pady=5)
+        self.weight_label = ttk.Label(personal_frame, text="Weight (kg):")
+        self.weight_label.grid(row=0, column=0, sticky="e", padx=10, pady=5)
         self.weight_entry = ttk.Entry(
             personal_frame, 
             width=20,
@@ -233,7 +268,8 @@ class BACCalculatorApp:
         )
         self.weight_entry.grid(row=0, column=1, padx=10, pady=5)
 
-        ttk.Label(personal_frame, text="Height (cm):").grid(row=1, column=0, sticky="e", padx=10, pady=5)
+        self.height_label = ttk.Label(personal_frame, text="Height (cm):")
+        self.height_label.grid(row=1, column=0, sticky="e", padx=10, pady=5)
         self.height_entry = ttk.Entry(
             personal_frame, 
             width=20,
@@ -263,10 +299,11 @@ class BACCalculatorApp:
             text="Drink Information",
             padding=(15, 10)
         )
-        drink_frame.grid(row=2, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        drink_frame.grid(row=3, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
         
         # Input fields - Drink Info
-        ttk.Label(drink_frame, text="Drink volume (ml):").grid(row=0, column=0, sticky="e", padx=10, pady=5)
+        self.volume_label = ttk.Label(drink_frame, text="Drink volume (ml):")
+        self.volume_label.grid(row=0, column=0, sticky="e", padx=10, pady=5)
         self.drink_volume_entry = ttk.Entry(
             drink_frame, 
             width=20,
@@ -301,7 +338,7 @@ class BACCalculatorApp:
             style='Calculate.TButton',
             cursor="hand2"
         )
-        calculate_btn.grid(row=3, column=0, columnspan=2, pady=15, padx=15, sticky="ew")
+        calculate_btn.grid(row=4, column=0, columnspan=2, pady=15, padx=15, sticky="ew")
 
         # Results Frame
         results_frame = ttk.LabelFrame(
@@ -309,7 +346,7 @@ class BACCalculatorApp:
             text="Results",
             padding=(15, 15)
         )
-        results_frame.grid(row=4, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        results_frame.grid(row=5, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
         
         # Configure grid columns in results frame
         results_frame.columnconfigure(0, weight=1)
@@ -349,7 +386,7 @@ class BACCalculatorApp:
             style='Mirab.TButton',
             cursor="hand2"
         )
-        mirab_btn.grid(row=5, column=0, columnspan=2, pady=(5, 15), padx=15, sticky="ew")
+        mirab_btn.grid(row=6, column=0, columnspan=2, pady=(5, 15), padx=15, sticky="ew")
     
     def run(self):
         """Run the application"""
