@@ -294,17 +294,14 @@ class BACCalculatorApp:
         self.hours_entry.grid(row=2, column=1, padx=10, pady=5)
 
         # Calculate button
-        tk.Button(
+        calculate_btn = ttk.Button(
             root, 
             text="Calculate BAC", 
             command=self.calculate_bac_handler,
-            bg=BUTTON_CALCULATE_BG,
-            fg=BUTTON_TEXT_COLOR,
-            font=("Arial", 11, "bold"),
-            padx=20,
-            pady=8,
+            style='Calculate.TButton',
             cursor="hand2"
-        ).grid(row=3, column=0, columnspan=2, pady=15, padx=10, sticky="ew")
+        )
+        calculate_btn.grid(row=3, column=0, columnspan=2, pady=15, padx=15, sticky="ew")
 
         # Error message label
         self.error_label = tk.Label(
@@ -318,17 +315,14 @@ class BACCalculatorApp:
         self.error_label.grid(row=4, column=0, columnspan=2, padx=10, pady=(0, 5))
 
         # Mirab button (for fun!)
-        tk.Button(
+        mirab_btn = ttk.Button(
             root, 
             text="Mirab", 
-            command=self.mirab_button_click, 
-            bg=BUTTON_MIRAB_BG, 
-            fg=BUTTON_TEXT_COLOR,
-            font=("Arial", 9),
-            padx=10,
-            pady=5,
+            command=self.mirab_button_click,
+            style='Mirab.TButton',
             cursor="hand2"
-        ).grid(row=5, column=0, columnspan=2, pady=5, padx=10)
+        )
+        mirab_btn.grid(row=5, column=0, columnspan=2, pady=(5, 10), padx=15, sticky="ew")
 
         # Result display
         self.result_label = tk.Label(
@@ -340,10 +334,11 @@ class BACCalculatorApp:
             bg=RESULT_BG_COLOR,
             relief="solid",
             borderwidth=1,
-            pady=15,
-            wraplength=350
+            pady=20,
+            padx=10,
+            wraplength=380
         )
-        self.result_label.grid(row=6, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+        self.result_label.grid(row=6, column=0, columnspan=2, padx=15, pady=(5, 15), sticky="ew")
     
     def run(self):
         """Run the application"""
