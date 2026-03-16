@@ -307,9 +307,12 @@ class BACCalculatorApp:
         results_frame = ttk.LabelFrame(
             root,
             text="Results",
-            padding=(15, 10)
+            padding=(15, 15)
         )
         results_frame.grid(row=4, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        
+        # Configure grid columns in results frame
+        results_frame.columnconfigure(0, weight=1)
 
         # Error message label
         self.error_label = tk.Label(
@@ -320,7 +323,7 @@ class BACCalculatorApp:
             wraplength=380,
             justify="center"
         )
-        self.error_label.grid(row=0, column=0, columnspan=2, padx=5, pady=(0, 5))
+        self.error_label.grid(row=0, column=0, padx=0, pady=(0, 8), sticky="ew")
 
         # Result display
         self.result_label = tk.Label(
@@ -336,7 +339,7 @@ class BACCalculatorApp:
             padx=10,
             wraplength=380
         )
-        self.result_label.grid(row=1, column=0, columnspan=2, padx=5, pady=(5, 0), sticky="ew")
+        self.result_label.grid(row=1, column=0, padx=0, pady=0, sticky="ew")
 
         # Mirab button (for fun!)
         mirab_btn = ttk.Button(
