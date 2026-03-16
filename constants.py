@@ -24,6 +24,22 @@ ABV_MAX = 100  # %
 HOURS_MIN = 0  # hours
 HOURS_MAX = 48  # hours
 
+# Unit conversion constants
+LBS_TO_KG = 0.453592
+KG_TO_LBS = 2.20462
+INCH_TO_CM = 2.54
+CM_TO_INCH = 0.393701
+OZ_TO_ML = 29.5735
+ML_TO_OZ = 0.033814
+
+# Imperial unit validation ranges
+WEIGHT_MIN_LBS = 66  # lbs (approx 30 kg)
+WEIGHT_MAX_LBS = 661  # lbs (approx 300 kg)
+HEIGHT_MIN_INCH = 20  # inches (approx 50 cm)
+HEIGHT_MAX_INCH = 98  # inches (approx 250 cm)
+VOLUME_MIN_OZ = 0  # oz (exclusive)
+VOLUME_MAX_OZ = 169  # oz (approx 5000 ml)
+
 # BAC level thresholds and descriptions
 BAC_LEVELS = [
     (0.02, "Minimal effects.", "#27ae60"),  # Green
