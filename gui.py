@@ -313,14 +313,14 @@ class BACCalculatorApp:
 
         # Error message label
         self.error_label = tk.Label(
-            root,
+            results_frame,
             text="",
             font=("Arial", 9),
             fg="#c0392b",  # Red color for errors
-            wraplength=400,
+            wraplength=380,
             justify="center"
         )
-        self.error_label.grid(row=4, column=0, columnspan=2, padx=10, pady=(0, 5))
+        self.error_label.grid(row=0, column=0, columnspan=2, padx=5, pady=(0, 5))
 
         # Mirab button (for fun!)
         mirab_btn = ttk.Button(
