@@ -106,15 +106,25 @@ class BACCalculatorApp:
             Tuple of (is_valid, error_message)
         """
         try:
+            unit = self.unit_system.get()
+            
             # Validate weight
             weight = float(self.weight_entry.get())
-            if weight < WEIGHT_MIN or weight > WEIGHT_MAX:
-                return False, f"Weight must be between {WEIGHT_MIN}-{WEIGHT_MAX} kg"
+            if unit == "metric":
+                if weight < WEIGHT_MIN or weight > WEIGHT_MAX:
+                    return False, f"Weight must be between {WEIGHT_MIN}-{WEIGHT_MAX} kg"
+            else:  # imperial
+                if weight < WEIGHT_MIN_LBS or weight > WEIGHT_MAX_LBS:
+                    return False, f"Weight must be between {WEIGHT_MIN_LBS}-{WEIGHT_MAX_LBS} lbs"
             
             # Validate height
             height = float(self.height_entry.get())
-            if height < HEIGHT_MIN or height > HEIGHT_MAX:
-                return False, f"Height must be between {HEIGHT_MIN}-{HEIGHT_MAX} cm"
+            if unit == "metric":
+                if height < HEIGHT_MIN or height > HEIGHT_MAX:
+                    return False, f"Height must be between {HEIGHT_MIN}-{HEIGHT_MAX} cm"
+            else:  # imperial
+                if height < HEIGHT_MIN_INCH or height > HEIGHT_MAX_INCH:
+                    return False, f"Height must be between {HEIGHT_MIN_INCH}-{HEIGHT_MAX_INCH} inches"
             
             # Validate age
             age = float(self.age_entry.get())
@@ -123,8 +133,12 @@ class BACCalculatorApp:
             
             # Validate drink volume
             volume = float(self.drink_volume_entry.get())
-            if volume <= VOLUME_MIN or volume > VOLUME_MAX:
-                return False, f"Drink volume must be between {VOLUME_MIN} and {VOLUME_MAX} ml"
+            if unit == "metric":
+                if volume <= VOLUME_MIN or volume > VOLUME_MAX:
+                    return False, f"Drink volume must be between {VOLUME_MIN} and {VOLUME_MAX} ml"
+            else:  # imperial
+                if volume <= VOLUME_MIN_OZ or volume > VOLUME_MAX_OZ:
+                    return False, f"Drink volume must be between {VOLUME_MIN_OZ} and {VOLUME_MAX_OZ} oz"
             
             # Validate ABV
             abv = float(self.drink_abv_entry.get())
@@ -158,6 +172,7 @@ class BACCalculatorApp:
         
         try:
             # Get user inputs
+            unit = self.unit_system.get()
             weight = float(self.weight_entry.get())
             height = float(self.height_entry.get())
             age = float(self.age_entry.get())
@@ -165,6 +180,12 @@ class BACCalculatorApp:
             volume = float(self.drink_volume_entry.get())
             abv = float(self.drink_abv_entry.get())
             hours = float(self.hours_entry.get())
+            
+            # Convert imperial units to metric if needed
+            if unit == "imperial":
+                weight = weight * LBS_TO_KG  # lbs to kg
+                height = height * INCH_TO_CM  # inches to cm
+                volume = volume * OZ_TO_ML  # oz to ml
 
             # Calculate alcohol grams
             alcohol_grams = calculate_alcohol_grams(volume, abv)
