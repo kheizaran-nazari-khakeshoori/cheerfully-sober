@@ -8,6 +8,7 @@ from tkinter import simpledialog
 from calculations import (
     calculate_alcohol_grams,
     calculate_bac,
+    calculate_bac_multiple_drinks,
     get_bac_description_and_color
 )
 from profiles import (
@@ -78,6 +79,9 @@ class BACCalculatorApp:
         # Profile management
         self.profile_var = None
         self.profile_combo = None
+        # Drinks list for tracking multiple drinks
+        self.drinks_list = []  # List of dicts: {volume_ml, abv_percent, hours_ago, display_text}
+        self.drinks_listbox = None
     
     def validate_positive_number(self, new_value):
         """
