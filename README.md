@@ -16,4 +16,12 @@ grams=volume (ml)×ABV (%)×0.789
 0.789 = density of ethanol in g/ml
 
 ⚠️ Important: This gives an estimate of BAC, not a “number of shots to blackout” — for safety, you should always present it as a risk/impairment estimate.
+## Features
 
+### Profile Management
+Save, load, and delete user profiles for quick calculations:
+- **Save Profile**: Store your personal information (weight, height, age, sex, and unit preference)
+- **Load Profile**: Quickly load a saved profile to avoid re-entering your data
+- **Delete Profile**: Remove profiles you no longer need
+
+Profiles are stored locally in your home directory at `~/.cheerfully_sober_profiles.json`
