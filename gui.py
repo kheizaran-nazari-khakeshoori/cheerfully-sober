@@ -235,12 +235,15 @@ class BACCalculatorApp:
             self.height_label.config(text="Height (inches):")
             self.volume_label.config(text="Drink volume (oz):")
         
-        # Clear any existing values when switching units
-        self.weight_entry.delete(0, tk.END)
-        self.height_entry.delete(0, tk.END)
-        self.drink_volume_entry.delete(0, tk.END)
-        # Clear error messages
-        self.error_label.config(text="")
+        # Only clear values when user manually changes units (event is not None)
+        # Don't clear when loading a profile
+        if event is not None:
+            # Clear any existing values when switching units
+            self.weight_entry.delete(0, tk.END)
+            self.height_entry.delete(0, tk.END)
+            self.drink_volume_entry.delete(0, tk.END)
+            # Clear error messages
+            self.error_label.config(text="")
     
     def clear_all(self):
         """Clear all input fields and reset the form"""
@@ -266,6 +269,113 @@ class BACCalculatorApp:
             fg=RESULT_DEFAULT_COLOR,
             font=("Arial", 10)
         )
+    
+    def save_profile_handler(self):
+        """Handle saving the current user data as a profile"""
+        # Validate that personal information is filled in
+        try:
+            weight = float(self.weight_entry.get())
+            height = float(self.height_entry.get())
+            age = float(self.age_entry.get())
+            sex = self.sex_var.get()
+            unit = self.unit_system.get()
+        except ValueError:
+            messagebox.showerror(
+                "Validation Error",
+                "Please fill in all personal information fields before saving a profile."
+            )
+            return
+        
+        # Ask for profile name
+        profile_name = simpledialog.askstring(
+            "Save Profile",
+            "Enter a name for this profile:",
+            parent=self.root
+        )
+        
+        if not profile_name:
+            return  # User cancelled
+        
+        # Save the profile
+        success = save_profile(profile_name, weight, height, age, sex, unit)
+        
+        if success:
+            messagebox.showinfo("Success", f"Profile '{profile_name}' saved successfully!")
+            # Refresh profile list
+            self.refresh_profile_list()
+            # Select the newly saved profile
+            self.profile_var.set(profile_name)
+        else:
+            messagebox.showerror("Error", "Failed to save profile. Please try again.")
+    
+    def load_profile_handler(self, event=None):
+        """Handle loading a selected profile"""
+        profile_name = self.profile_var.get()
+        
+        if not profile_name:
+            messagebox.showwarning("No Profile", "Please select a profile to load.")
+            return
+        
+        profile_data = load_profile(profile_name)
+        
+        if not profile_data:
+            messagebox.showerror("Error", f"Profile '{profile_name}' not found.")
+            return
+        
+        # Set unit system first
+        unit = profile_data.get("unit_system", "metric")
+        self.unit_system.set(unit)
+        self.on_unit_change()  # Update labels without clearing
+        
+        # Load the data into fields
+        self.weight_entry.delete(0, tk.END)
+        self.weight_entry.insert(0, str(profile_data.get("weight", "")))
+        
+        self.height_entry.delete(0, tk.END)
+        self.height_entry.insert(0, str(profile_data.get("height", "")))
+        
+        self.age_entry.delete(0, tk.END)
+        self.age_entry.insert(0, str(profile_data.get("age", "")))
+        
+        self.sex_var.set(profile_data.get("sex", "male"))
+        
+        # Clear error messages
+        self.error_label.config(text="")
+        
+        messagebox.showinfo("Success", f"Profile '{profile_name}' loaded successfully!")
+    
+    def delete_profile_handler(self):
+        """Handle deleting the selected profile"""
+        profile_name = self.profile_var.get()
+        
+        if not profile_name:
+            messagebox.showwarning("No Profile", "Please select a profile to delete.")
+            return
+        
+        # Confirm deletion
+        confirm = messagebox.askyesno(
+            "Confirm Deletion",
+            f"Are you sure you want to delete profile '{profile_name}'?"
+        )
+        
+        if not confirm:
+            return
+        
+        success = delete_profile(profile_name)
+        
+        if success:
+            messagebox.showinfo("Success", f"Profile '{profile_name}' deleted successfully!")
+            # Refresh profile list
+            self.refresh_profile_list()
+            # Clear selection
+            self.profile_var.set("")
+        else:
+            messagebox.showerror("Error", "Failed to delete profile. Please try again.")
+    
+    def refresh_profile_list(self):
+        """Refresh the list of available profiles in the dropdown"""
+        profile_names = get_profile_names()
+        self.profile_combo['values'] = profile_names
     
     def build_ui(self, root):
         """Build the user interface"""
