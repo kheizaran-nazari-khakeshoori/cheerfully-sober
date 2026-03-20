@@ -232,6 +232,31 @@ class BACCalculatorApp:
         # Clear error messages
         self.error_label.config(text="")
     
+    def clear_all(self):
+        """Clear all input fields and reset the form"""
+        # Clear all entry fields
+        self.weight_entry.delete(0, tk.END)
+        self.height_entry.delete(0, tk.END)
+        self.age_entry.delete(0, tk.END)
+        self.drink_volume_entry.delete(0, tk.END)
+        self.drink_abv_entry.delete(0, tk.END)
+        self.hours_entry.delete(0, tk.END)
+        
+        # Reset sex to default
+        self.sex_var.set("male")
+        
+        # Reset unit system to metric
+        self.unit_system.set("metric")
+        self.on_unit_change()  # Update labels
+        
+        # Clear error and result messages
+        self.error_label.config(text="")
+        self.result_label.config(
+            text="Enter your information and click Calculate",
+            fg=RESULT_DEFAULT_COLOR,
+            font=("Arial", 10)
+        )
+    
     def build_ui(self, root):
         """Build the user interface"""
         self.root = root
