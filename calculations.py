@@ -65,6 +65,49 @@ def calculate_bac(weight_kg, sex, alcohol_grams, hours_elapsed):
     return max(bac, 0.0)
 
 
+def calculate_bac_multiple_drinks(weight_kg, sex, drinks):
+    """
+    Calculate Blood Alcohol Content from multiple drinks using Widmark formula.
+    
+    Args:
+        weight_kg: Body weight in kilograms
+        sex: Biological sex ("male" or "female")
+        drinks: List of drink dictionaries, each containing:
+                - volume_ml: Volume in milliliters
+                - abv_percent: Alcohol by volume percentage
+                - hours_ago: Hours since this drink was consumed
+        
+    Returns:
+        BAC as a percentage (e.g., 0.08 for 0.08%)
+    """
+    r = get_widmark_factor(sex)
+    weight_g = weight_kg * 1000
+    
+    total_bac = 0.0
+    
+    # Calculate BAC contribution from each drink
+    for drink in drinks:
+        volume_ml = drink['volume_ml']
+        abv_percent = drink['abv_percent']
+        hours_ago = drink['hours_ago']
+        
+        # Calculate alcohol grams for this drink
+        alcohol_grams = calculate_alcohol_grams(volume_ml, abv_percent)
+        
+        # Calculate BAC for this drink using Widmark formula
+        drink_bac = (alcohol_grams / (weight_g * r)) * 100
+        
+        # Account for alcohol elimination over time for this specific drink
+        drink_bac -= ELIMINATION_RATE_PER_HR * hours_ago
+        
+        # Add to total (only if positive)
+        if drink_bac > 0:
+            total_bac += drink_bac
+    
+    # BAC cannot be negative
+    return max(total_bac, 0.0)
+
+
 def get_bac_description_and_color(bac):
     """
     Get description and color code for a given BAC level.
