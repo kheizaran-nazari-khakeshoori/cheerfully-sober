@@ -381,6 +381,74 @@ class BACCalculatorApp:
         profile_names = get_profile_names()
         self.profile_combo['values'] = profile_names
     
+    def add_drink_to_list(self):
+        """Add current drink information to the drinks list"""
+        try:
+            unit = self.unit_system.get()
+            volume = float(self.drink_volume_entry.get())
+            abv = float(self.drink_abv_entry.get())
+            hours = float(self.hours_entry.get())
+            
+            # Validate ranges
+            if unit == "metric":
+                if volume <= VOLUME_MIN or volume > VOLUME_MAX:
+                    messagebox.showerror("Invalid Input", f"Volume must be between {VOLUME_MIN} and {VOLUME_MAX} ml")
+                    return
+                volume_ml = volume
+            else:  # imperial
+                if volume <= VOLUME_MIN_OZ or volume > VOLUME_MAX_OZ:
+                    messagebox.showerror("Invalid Input", f"Volume must be between {VOLUME_MIN_OZ} and {VOLUME_MAX_OZ} oz")
+                    return
+                volume_ml = volume * OZ_TO_ML
+            
+            if abv <= ABV_MIN or abv > ABV_MAX:
+                messagebox.showerror("Invalid Input", f"ABV must be between {ABV_MIN} and {ABV_MAX}%")
+                return
+            
+            if hours < HOURS_MIN or hours > HOURS_MAX:
+                messagebox.showerror("Invalid Input", f"Hours must be between {HOURS_MIN} and {HOURS_MAX}")
+                return
+            
+            # Create drink entry
+            drink = {
+                'volume_ml': volume_ml,
+                'abv_percent': abv,
+                'hours_ago': hours
+            }
+            
+            # Create display text
+            unit_display = "ml" if unit == "metric" else "oz"
+            display_text = f"{volume:.0f} {unit_display} @ {abv:.1f}% ABV, {hours:.1f} hrs ago"
+            drink['display_text'] = display_text
+            
+            # Add to list
+            self.drinks_list.append(drink)
+            self.drinks_listbox.insert(tk.END, display_text)
+            
+            # Clear the drink input fields
+            self.drink_volume_entry.delete(0, tk.END)
+            self.drink_abv_entry.delete(0, tk.END)
+            self.hours_entry.delete(0, tk.END)
+            
+        except ValueError:
+            messagebox.showerror("Invalid Input", "Please enter valid numbers for all drink fields")
+    
+    def remove_drink_from_list(self):
+        """Remove the selected drink from the list"""
+        selection = self.drinks_listbox.curselection()
+        if not selection:
+            messagebox.showwarning("No Selection", "Please select a drink to remove")
+            return
+        
+        index = selection[0]
+        self.drinks_listbox.delete(index)
+        self.drinks_list.pop(index)
+    
+    def clear_drinks_list(self):
+        """Clear all drinks from the list"""
+        self.drinks_list.clear()
+        self.drinks_listbox.delete(0, tk.END)
+    
     def build_ui(self, root):
         """Build the user interface"""
         self.root = root
@@ -579,10 +647,61 @@ class BACCalculatorApp:
             validatecommand=(validate_cmd, '%P')
         )
         self.hours_entry.grid(row=2, column=1, padx=10, pady=5)
+        
+        # Add to drinks list button
+        add_drink_btn = ttk.Button(
+            drink_frame,
+            text="➕ Add Drink to List",
+            command=self.add_drink_to_list,
+            cursor="hand2"
+        )
+        add_drink_btn.grid(row=3, column=0, columnspan=2, pady=(10, 5), padx=10, sticky="ew")
+        
+        # Drinks List Frame
+        drinks_list_frame = ttk.LabelFrame(
+            root,
+            text="Drinks List",
+            padding=(15, 10)
+        )
+        drinks_list_frame.grid(row=5, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        
+        # Listbox to display drinks
+        drinks_scroll = ttk.Scrollbar(drinks_list_frame, orient="vertical")
+        self.drinks_listbox = tk.Listbox(
+            drinks_list_frame,
+            height=5,
+            yscrollcommand=drinks_scroll.set,
+            font=("Arial", 9)
+        )
+        drinks_scroll.config(command=self.drinks_listbox.yview)
+        self.drinks_listbox.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, 5))
+        drinks_scroll.grid(row=0, column=2, sticky="ns", pady=(0, 5))
+        
+        # Buttons for drinks list management
+        drinks_btn_frame = ttk.Frame(drinks_list_frame)
+        drinks_btn_frame.grid(row=1, column=0, columnspan=3, sticky="ew")
+        drinks_btn_frame.columnconfigure(0, weight=1)
+        drinks_btn_frame.columnconfigure(1, weight=1)
+        
+        remove_drink_btn = ttk.Button(
+            drinks_btn_frame,
+            text="Remove Selected",
+            command=self.remove_drink_from_list,
+            cursor="hand2"
+        )
+        remove_drink_btn.grid(row=0, column=0, padx=(0, 3), sticky="ew")
+        
+        clear_drinks_btn = ttk.Button(
+            drinks_btn_frame,
+            text="Clear All",
+            command=self.clear_drinks_list,
+            cursor="hand2"
+        )
+        clear_drinks_btn.grid(row=0, column=1, padx=(3, 0), sticky="ew")
 
         # Button frame for Calculate and Reset buttons
         button_frame = ttk.Frame(root)
-        button_frame.grid(row=5, column=0, columnspan=2, pady=15, padx=15, sticky="ew")
+        button_frame.grid(row=6, column=0, columnspan=2, pady=15, padx=15, sticky="ew")
         button_frame.columnconfigure(0, weight=1)
         button_frame.columnconfigure(1, weight=1)
 
@@ -612,7 +731,7 @@ class BACCalculatorApp:
             text="Results",
             padding=(15, 15)
         )
-        results_frame.grid(row=6, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        results_frame.grid(row=7, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
         
         # Configure grid columns in results frame
         results_frame.columnconfigure(0, weight=1)
@@ -652,7 +771,7 @@ class BACCalculatorApp:
             style='Mirab.TButton',
             cursor="hand2"
         )
-        mirab_btn.grid(row=7, column=0, columnspan=2, pady=(5, 15), padx=15, sticky="ew")
+        mirab_btn.grid(row=8, column=0, columnspan=2, pady=(5, 15), padx=15, sticky="ew")
     
     def run(self):
         """Run the application"""

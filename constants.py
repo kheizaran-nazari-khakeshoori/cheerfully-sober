@@ -52,7 +52,7 @@ BAC_LEVELS = [
 
 # GUI Configuration
 WINDOW_WIDTH = 450
-WINDOW_HEIGHT = 750
+WINDOW_HEIGHT = 900
 WINDOW_TITLE = "cheerfully-sober"
 
 # Colors
