@@ -287,6 +287,11 @@ class BACCalculatorApp:
                        background=BUTTON_MIRAB_BG,
                        foreground=BUTTON_TEXT_COLOR,
                        padding=8)
+        style.configure('Reset.TButton',
+                       font=('Arial', 10),
+                       background='#95a5a6',  # Gray color for reset
+                       foreground=BUTTON_TEXT_COLOR,
+                       padding=10)
         
         # Register validation command
         validate_cmd = root.register(self.validate_positive_number)
