@@ -401,15 +401,31 @@ class BACCalculatorApp:
         )
         self.hours_entry.grid(row=2, column=1, padx=10, pady=5)
 
+        # Button frame for Calculate and Reset buttons
+        button_frame = ttk.Frame(root)
+        button_frame.grid(row=4, column=0, columnspan=2, pady=15, padx=15, sticky="ew")
+        button_frame.columnconfigure(0, weight=1)
+        button_frame.columnconfigure(1, weight=1)
+
         # Calculate button
         calculate_btn = ttk.Button(
-            root, 
+            button_frame, 
             text="Calculate BAC", 
             command=self.calculate_bac_handler,
             style='Calculate.TButton',
             cursor="hand2"
         )
-        calculate_btn.grid(row=4, column=0, columnspan=2, pady=15, padx=15, sticky="ew")
+        calculate_btn.grid(row=0, column=0, padx=(0, 5), sticky="ew")
+        
+        # Reset button
+        reset_btn = ttk.Button(
+            button_frame,
+            text="Reset",
+            command=self.clear_all,
+            style='Reset.TButton',
+            cursor="hand2"
+        )
+        reset_btn.grid(row=0, column=1, padx=(5, 0), sticky="ew")
 
         # Results Frame
         results_frame = ttk.LabelFrame(
