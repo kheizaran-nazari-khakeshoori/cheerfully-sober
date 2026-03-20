@@ -3,11 +3,18 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter import simpledialog
 
 from calculations import (
     calculate_alcohol_grams,
     calculate_bac,
     get_bac_description_and_color
+)
+from profiles import (
+    save_profile,
+    load_profile,
+    delete_profile,
+    get_profile_names
 )
 from constants import (
     WINDOW_WIDTH,
@@ -68,6 +75,9 @@ class BACCalculatorApp:
         self.weight_label = None
         self.height_label = None
         self.volume_label = None
+        # Profile management
+        self.profile_var = None
+        self.profile_combo = None
     
     def validate_positive_number(self, new_value):
         """
@@ -320,13 +330,68 @@ class BACCalculatorApp:
         unit_combo.pack(side="left")
         unit_combo.bind("<<ComboboxSelected>>", self.on_unit_change)
         
+        # Profile management frame
+        profile_frame = ttk.LabelFrame(
+            root,
+            text="Profile Management",
+            padding=(15, 10)
+        )
+        profile_frame.grid(row=2, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        
+        # Profile selector
+        profile_select_frame = ttk.Frame(profile_frame)
+        profile_select_frame.grid(row=0, column=0, columnspan=3, pady=(0, 5), sticky="ew")
+        
+        ttk.Label(profile_select_frame, text="Profile:", font=("Arial", 9)).pack(side="left", padx=(0, 5))
+        self.profile_var = tk.StringVar(value="")
+        self.profile_combo = ttk.Combobox(
+            profile_select_frame,
+            textvariable=self.profile_var,
+            values=get_profile_names(),
+            state="readonly",
+            width=25
+        )
+        self.profile_combo.pack(side="left", padx=(0, 5))
+        self.profile_combo.bind("<<ComboboxSelected>>", self.load_profile_handler)
+        
+        # Profile buttons
+        profile_btn_frame = ttk.Frame(profile_frame)
+        profile_btn_frame.grid(row=1, column=0, columnspan=3, pady=(5, 0), sticky="ew")
+        profile_btn_frame.columnconfigure(0, weight=1)
+        profile_btn_frame.columnconfigure(1, weight=1)
+        profile_btn_frame.columnconfigure(2, weight=1)
+        
+        save_profile_btn = ttk.Button(
+            profile_btn_frame,
+            text="Save Profile",
+            command=self.save_profile_handler,
+            cursor="hand2"
+        )
+        save_profile_btn.grid(row=0, column=0, padx=(0, 3), sticky="ew")
+        
+        load_profile_btn = ttk.Button(
+            profile_btn_frame,
+            text="Load Profile",
+            command=self.load_profile_handler,
+            cursor="hand2"
+        )
+        load_profile_btn.grid(row=0, column=1, padx=(3, 3), sticky="ew")
+        
+        delete_profile_btn = ttk.Button(
+            profile_btn_frame,
+            text="Delete Profile",
+            command=self.delete_profile_handler,
+            cursor="hand2"
+        )
+        delete_profile_btn.grid(row=0, column=2, padx=(3, 0), sticky="ew")
+        
         # Personal Information Frame
         personal_frame = ttk.LabelFrame(
             root, 
             text="Personal Information",
             padding=(15, 10)
         )
-        personal_frame.grid(row=2, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        personal_frame.grid(row=3, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
         
         # Input fields - Personal Info
         self.weight_label = ttk.Label(personal_frame, text="Weight (kg):")
@@ -370,7 +435,7 @@ class BACCalculatorApp:
             text="Drink Information",
             padding=(15, 10)
         )
-        drink_frame.grid(row=3, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        drink_frame.grid(row=4, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
         
         # Input fields - Drink Info
         self.volume_label = ttk.Label(drink_frame, text="Drink volume (ml):")
@@ -403,7 +468,7 @@ class BACCalculatorApp:
 
         # Button frame for Calculate and Reset buttons
         button_frame = ttk.Frame(root)
-        button_frame.grid(row=4, column=0, columnspan=2, pady=15, padx=15, sticky="ew")
+        button_frame.grid(row=5, column=0, columnspan=2, pady=15, padx=15, sticky="ew")
         button_frame.columnconfigure(0, weight=1)
         button_frame.columnconfigure(1, weight=1)
 
@@ -433,7 +498,7 @@ class BACCalculatorApp:
             text="Results",
             padding=(15, 15)
         )
-        results_frame.grid(row=5, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
+        results_frame.grid(row=6, column=0, columnspan=2, padx=15, pady=(5, 10), sticky="ew")
         
         # Configure grid columns in results frame
         results_frame.columnconfigure(0, weight=1)
@@ -473,7 +538,7 @@ class BACCalculatorApp:
             style='Mirab.TButton',
             cursor="hand2"
         )
-        mirab_btn.grid(row=6, column=0, columnspan=2, pady=(5, 15), padx=15, sticky="ew")
+        mirab_btn.grid(row=7, column=0, columnspan=2, pady=(5, 15), padx=15, sticky="ew")
     
     def run(self):
         """Run the application"""
